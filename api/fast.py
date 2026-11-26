@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-import joblib
+#import joblib
 import pandas as pd
-from taxifare.predict import predict
+#from taxifare.predict import predict
 # FastAPI instance
 app = FastAPI()
 
@@ -31,12 +31,12 @@ def prediction(
         'passenger_count':passenger_count
     }])
 
-    model=joblib.load('models/linreg_pipeline.joblib')
-    y_pred,y_proba=predict(model, X_pred)
+    #model=joblib.load('models/linreg_pipeline.joblib')
+    #y_pred,y_proba=predict(model, X_pred)
 
-    """Prediction endpoint that returns the fare amount."""
-    return {"Prediction": y_pred[0],'Probability':y_proba[0]}
-
+    """Prediction endpoint that returns taxi fare amount."""
+    #return {"Prediction": y_pred[0],'Probability':y_proba[0]}
+    return {"Prediction":passenger_count*2.5}
 
 
 # Dummy endpoint
