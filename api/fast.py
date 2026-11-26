@@ -3,6 +3,8 @@ import pandas as pd
 from taxifare.predict import load_model, predict
 # FastAPI instance
 app = FastAPI()
+#model
+model=load_model('models/linreg_pipeline.joblib')
 
 # Root endpoint
 @app.get("/")
@@ -30,7 +32,6 @@ def prediction(
         'passenger_count':passenger_count
     }])
 
-    model=load_model('models/linreg_pipeline.joblib')
     y_pred=predict(model, X_pred)
 
     """Prediction endpoint that returns taxi fare amount."""
