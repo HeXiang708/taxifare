@@ -2,6 +2,8 @@
 
 import joblib
 import pandas as pd
+from sklearn import set_config
+set_config(transform_output="pandas")
 
 def load_model(model_path: str):
     """Load a trained model (e.g. a scikit-learn pipeline) from disk.
