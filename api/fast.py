@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import pandas as pd
 from taxifare.predict import load_model, predict
+
 # FastAPI instance
 app = FastAPI()
 #model
@@ -25,7 +26,7 @@ def prediction(
 ):
     X_pred=pd.DataFrame([{
         'pickup_datetime': pickup_datetime,
-        'pickup_longitude':pickup_longitude,
+        'pickup_longitude': pickup_longitude,
         'pickup_latitude':pickup_latitude,
         'dropoff_longitude':dropoff_longitude,
         'dropoff_latitude':dropoff_latitude,
