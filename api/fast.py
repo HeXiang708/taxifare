@@ -35,7 +35,7 @@ def prediction(
     y_pred=predict(model, X_pred)
 
     """Prediction endpoint that returns taxi fare amount."""
-    return {"Prediction": y_pred}
+    return {"fare": y_pred}
 
 
 
