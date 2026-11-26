@@ -4,6 +4,9 @@ run-api:
 docker_image_name:
 	echo ${GAR_IMAGE_NAME}
 
+#
+#		Command of the local deployement
+#
 # Build the docker in local machine
 docker_build_local:
 	docker build -t ${IMAGE_NAME}:dev .
@@ -14,3 +17,30 @@ docker_run:
 build_test_local:
 	${MAKE} docker_build_local
 	${MAKE} docker_run;
+
+#
+#		Command of the Clould deployement
+#
+# Cloud Run authentification
+auth_docker:
+	gcloud auth configure-docker ${GCP_REGION}-docker.pkg.dev
+# Create a new repository in Cloud Run
+create_docker_repo:
+	gcloud artifacts repositories create ${DOCKER_REPO_NAME} \
+		--repository-format=docker \
+		--location=${GCP_REGION} \
+		--description="Repository for storing Docker images"
+# Build the docker in Cloud Run
+docker_build_cloud:
+	docker build --platform linux/amd64 -t ${GAR_IMAGE_NAME}:prod .
+# Push the docker to Cloud Run
+docker_push:
+	docker push ${GAR_IMAGE_NAME}:prod
+# Deploy the docker
+docker_deploy:
+	gcloud run deploy --image ${GAR_IMAGE_NAME}:prod --region ${GCP_REGION} --env-vars-file production.env
+
+build_deploy_cloud:
+	${MAKE} docker_build_cloud
+	${MAKE} docker_push
+	${MAKE} docker_deploy
