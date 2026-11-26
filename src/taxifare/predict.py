@@ -1,11 +1,32 @@
+"""Load a trained taxi-fare model and make fare predictions."""
+
 import joblib
 import pandas as pd
 
 def load_model(model_path: str):
+    """Load a trained model (e.g. a scikit-learn pipeline) from disk.
+
+    Args:
+        model_path: Path to the ``.joblib`` file containing the serialized model.
+
+    Returns:
+        The deserialized model object.
+    """
     return joblib.load(model_path)
 
 def predict(model, data):
-    """Make predictions using the loaded model and input data."""
+    """Predict the taxi fare for a single ride.
+
+    Args:
+        model: A fitted model exposing a ``predict`` method, typically the
+            pipeline returned by :func:`load_model`.
+        data: A ``pandas.DataFrame`` with the raw ride features
+            (``pickup_datetime``, pickup/dropoff longitude and latitude,
+            ``passenger_count``). Only the first row's prediction is returned.
+
+    Returns:
+        The predicted fare for the first row of ``data``.
+    """
     prediction = model.predict(data)
     return prediction[0]
 
