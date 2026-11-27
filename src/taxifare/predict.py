@@ -1,11 +1,16 @@
 """Load a trained taxi-fare model and make fare predictions."""
 
-import joblib
+import joblib, os
 import pandas as pd
 from sklearn import set_config
 set_config(transform_output="pandas")
 
 from taxifare.geoprocessing import nyc_addr_convert
+from taxifare.cloud_utils import download_blob
+
+BUCKET_NAME = os.environ["BUCKET_NAME"]
+MODEL_SOURCE = os.environ["MODEL_SOURCE"]
+MODEL_PATH = os.environ["MODEL_PATH"]
 
 def load_model(model_path: str):
     """Load a trained model (e.g. a scikit-learn pipeline) from disk.
@@ -16,6 +21,9 @@ def load_model(model_path: str):
     Returns:
         The deserialized model object.
     """
+    if MODEL_SOURCE == "gcs":
+        download_blob(BUCKET_NAME, MODEL_PATH, "models/model_from_gcs.joblib")
+        model_path = "models/model_from_gcs.joblib"
     return joblib.load(model_path)
 
 def predict(model, data):

@@ -15,9 +15,11 @@ RUN uv sync --no-install-project
 
 COPY src ./src
 COPY api ./api
-COPY models ./models
+#COPY models ./models
 COPY README.md ./README.md
 RUN uv sync
+
+RUN mkdir models
 
 # Startup instructions
 CMD ["uv", "run", "uvicorn", "api.fast:app", "--host", "0.0.0.0", "--port", "8080"]
