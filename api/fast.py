@@ -38,6 +38,24 @@ def prediction(
     """Prediction endpoint that returns taxi fare amount."""
     return {"fare": y_pred}
 
+@app.get("/predict_addr")
+def prediction(
+    pickup_datetime:str,
+    origin_addr:str,
+    dest_addr:str,
+    passenger_count: int
+):
+    X_pred=pd.DataFrame([{
+        'pickup_datetime': pickup_datetime,
+        'origin_addr': origin_addr,
+        'dest_addr':dest_addr,
+        'passenger_count':passenger_count
+    }])
+
+    y_pred=predict(model, X_pred)
+
+    """Prediction endpoint that returns taxi fare amount."""
+    return {"fare": y_pred}
 
 
 # Dummy endpoint
