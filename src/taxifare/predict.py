@@ -5,6 +5,8 @@ import pandas as pd
 from sklearn import set_config
 set_config(transform_output="pandas")
 
+from taxifare.geoprocessing import nyc_addr_convert
+
 def load_model(model_path: str):
     """Load a trained model (e.g. a scikit-learn pipeline) from disk.
 
@@ -29,7 +31,18 @@ def predict(model, data):
     Returns:
         The predicted fare for the first row of ``data``.
     """
-    prediction = model.predict(data)
+    if "origin_addr" in data.columns:
+        ori_latitude, ori_longitude = nyc_addr_convert(data["origin_addr"].iloc[0])
+        dest_latitude, dest_longitude = nyc_addr_convert(data["dest_addr"].iloc[0])
+    X_pred=pd.DataFrame([{
+        'pickup_datetime': data['pickup_datetime'].iloc[0],
+        'pickup_longitude': ori_longitude,
+        'pickup_latitude':ori_latitude,
+        'dropoff_longitude':dest_longitude,
+        'dropoff_latitude':dest_latitude,
+        'passenger_count':data['passenger_count'].iloc[0]
+    }])
+    prediction = model.predict(X_pred)
     return prediction[0]
 
 if __name__ == "__main__":
@@ -42,6 +55,13 @@ if __name__ == "__main__":
           'passenger_count': 1
     }])
 
+    X_arr = pd.DataFrame([{
+          'pickup_datetime': '2013-07-06 17:18:00 UTC',
+          'origin_addr': '201 E 93rd St, New York, NY  10128 United States',
+          'dest_addr': '8 Columbus Ave, New York, NY  10023 United States',
+          'passenger_count': 1
+    }])
+
     model = load_model("models/linreg_pipeline.joblib")
 
-    print(predict(model, X_dummy))
+    print(predict(model, X_arr))
