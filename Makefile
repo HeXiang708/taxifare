@@ -12,7 +12,7 @@ docker_build_local:
 	docker build -t ${IMAGE_NAME}:dev .
 # run the docker in local machine
 docker_run:
-	docker run -p 8001:8080 ${IMAGE_NAME}:dev
+	docker run --env-file .env -p 8001:8080 ${IMAGE_NAME}:dev
 
 build_test_local:
 	${MAKE} docker_build_local
@@ -44,3 +44,14 @@ build_deploy_cloud:
 	${MAKE} docker_build_cloud
 	${MAKE} docker_push
 	${MAKE} docker_deploy
+
+#
+# Load the model from cloud storage
+#
+# 1. Create a bucket
+# 2. Copy the model from local to cloud: gcloud storage cp models/mymodel.keras gs://${BUCKET_NAME}
+# 3. In Dockerfile: Don't copy model, but just create a folder called models.
+# 4. Update .env, production.env and predict to adapt a loading from cloud storage
+create_gcp_bucket:
+	gcloud storage buckets create --location ${GCP_REGION} gs://${BUCKET_NAME}
+	gcloud storage ls
