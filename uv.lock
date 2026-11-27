@@ -692,6 +692,23 @@ wheels = [
 ]
 
 [[package]]
+name = "google-cloud-storage"
+version = "3.17.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "google-api-core" },
+    { name = "google-auth" },
+    { name = "google-cloud-core" },
+    { name = "google-crc32c" },
+    { name = "google-resumable-media" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/32/88/b90f3c94896ee5a8ae3eda9af98a6847c395eb15e9917fb43ffeb48a584e/google_cloud_storage-3.17.2.tar.gz", hash = "sha256:ef92d6520abd37c757a962f8702c72786ff833f8d5aa6ebeb528a0688189f64c", size = 17359031, upload-time = "2026-11-23T18:19:56.097Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/94/00/0fe4cb53eb14046ad9ea5462f683491a43128646b6d3656cb3f58e337a77/google_cloud_storage-3.17.2-py3-none-any.whl", hash = "sha256:5d5a1d0c9d6a4f96180a35a958bbfe81bf57ad2fab87e4ee9f78117b8d5f5f68", size = 346718, upload-time = "2026-11-23T18:19:54.215Z" },
+]
+
+[[package]]
 name = "google-crc32c"
 version = "1.9.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1962,6 +1979,7 @@ dependencies = [
     { name = "fastapi" },
     { name = "geopy" },
     { name = "google-cloud-bigquery" },
+    { name = "google-cloud-storage" },
     { name = "numpy" },
     { name = "pandas" },
     { name = "scikit-learn" },
@@ -1982,6 +2000,7 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.165.0" },
     { name = "geopy", specifier = ">=2.5.0" },
     { name = "google-cloud-bigquery", specifier = ">=3.47.0" },
+    { name = "google-cloud-storage", specifier = ">=3.17.2" },
     { name = "numpy", specifier = ">=2.5.5" },
     { name = "pandas", specifier = "<3" },
     { name = "scikit-learn", specifier = ">=1.9.1" },
